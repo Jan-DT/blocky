@@ -1,6 +1,5 @@
 ### Blocky ###
 logs/
-docs/
 
 ### Gradle ###
 .gradle/
@@ -45,5 +44,4 @@ bin/
 .vscode/
 
 ### Mac OS ###
-.DS_Store!/
-/docs/
+.DS_Store

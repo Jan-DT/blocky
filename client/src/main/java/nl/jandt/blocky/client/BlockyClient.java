@@ -1,6 +1,6 @@
-package nl.jandt.blocky;
+package nl.jandt.blocky.client;
 
-public class BlockyEngine {
+public class BlockyClient {
     public static void main(String[] args) {
         System.out.println("Hello world!");
     }

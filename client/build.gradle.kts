@@ -1,10 +1,9 @@
 plugins {
     id("java")
-    id("java-library")
     id("io.github.goooler.shadow") version "8.1.7"
 }
 
-group = "nl.jandt.blocky.engine"
+group = "nl.jandt.blocky.client"
 version = "0.1-INDEV"
 
 java {
@@ -26,10 +25,7 @@ dependencies {
     implementation("ch.qos.logback:logback-core:1.5.6")
     implementation("ch.qos.logback:logback-classic:1.5.6")
     implementation("org.slf4j:slf4j-api:2.0.16")
-    implementation("dev.hollowcube:polar:1.11.1")
-    api("net.kyori:adventure-text-minimessage:4.17.0")
-    api("net.minestom:minestom-snapshots:6c5cd6544e")
-    api("dev.hollowcube:polar:1.11.1")
+    implementation("com.formdev:flatlaf:3.5.1")
 }
 
 tasks.test {
@@ -41,6 +37,6 @@ tasks.test {
 
 tasks.withType<Jar> {
     manifest {
-        attributes["Main-Class"] = "nl.jandt.blocky.engine.BlockyEngine"
+        attributes["Main-Class"] = "nl.jandt.blocky.client.BlockyEngine"
     }
 }
