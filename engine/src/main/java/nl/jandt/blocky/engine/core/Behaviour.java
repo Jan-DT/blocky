@@ -1,5 +1,7 @@
 package nl.jandt.blocky.engine.core;
 
+import net.minestom.server.event.Event;
+import net.minestom.server.event.EventNode;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -9,6 +11,15 @@ public abstract class Behaviour extends Trait implements Updatable {
 
     public Behaviour(Container container) {
         super(container);
+
+        if (!(container instanceof WorldObject))
+            throw new IllegalArgumentException("Behaviour traits can only be added to WorldObjects");
+    }
+
+    public Behaviour(Container container, boolean enabled) {
+        this(container);
+
+        this.enabled.set(enabled);
     }
 
     /**
@@ -78,5 +89,14 @@ public abstract class Behaviour extends Trait implements Updatable {
     @Override
     public final boolean isEnabled() {
         return this.enabled.get();
+    }
+
+    @Override
+    public WorldObject getContainer() {
+        return (WorldObject) container;
+    }
+
+    public EventNode<Event> parentEventNode() {
+        return getContainer().getEventNode();
     }
 }

@@ -8,20 +8,18 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collection;
 import java.util.Optional;
 
-public abstract class Trait implements Traitable {
-    private final Container container;
+public abstract class Trait extends GameObject implements Traitable {
+    public static final Class<Container> CONTAINER_TYPE = Container.class;
 
-    protected Trait(Container container) {
+    protected final Container container;
+
+    public Trait(Container container) {
         this.container = container;
     }
 
     @SuppressWarnings("unused")
     public Container getContainer() {
         return container;
-    }
-
-    public EventNode<Event> parentEventNode() {
-        return container.getEventNode();
     }
 
     //region Traitable Implementations
