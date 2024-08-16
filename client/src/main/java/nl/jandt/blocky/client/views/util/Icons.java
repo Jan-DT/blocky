@@ -1,4 +1,4 @@
-package nl.jandt.blocky.client.views;
+package nl.jandt.blocky.client.views.util;
 
 
 import org.jetbrains.annotations.NotNull;

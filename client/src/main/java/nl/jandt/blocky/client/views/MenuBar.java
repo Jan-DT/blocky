@@ -1,23 +1,51 @@
 package nl.jandt.blocky.client.views;
 
+import com.formdev.flatlaf.FlatClientProperties;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
+import com.formdev.flatlaf.extras.components.FlatButton;
+import com.formdev.flatlaf.ui.FlatBorder;
+import com.formdev.flatlaf.ui.FlatButtonBorder;
+import com.formdev.flatlaf.ui.FlatEmptyBorder;
+import com.formdev.flatlaf.ui.FlatMenuBarBorder;
+import nl.jandt.blocky.client.views.util.Icons;
 import org.kordamp.ikonli.materialdesign2.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
-import javax.swing.event.MenuListener;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
 import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class MenuBar extends JMenuBar {
+    private static final Logger log = LoggerFactory.getLogger(MenuBar.class);
+
     public MenuBar() {
         final var fileMenu = fileMenu();
+        fileMenu.setMnemonic('f');
         this.add(fileMenu);
 
         final var editMenu = editMenu();
+        editMenu.setMnemonic('e');
         this.add(editMenu);
 
         final var aboutMenu = aboutMenu();
+        aboutMenu.setMnemonic('a');
         this.add(aboutMenu);
+
+        this.add(Box.createHorizontalGlue());
+
+        final var settingsIcon = new FlatButton();
+        settingsIcon.setButtonType(FlatButton.ButtonType.toolBarButton);
+        settingsIcon.setIcon(Icons.menuBar(MaterialDesignC.COG_OUTLINE));
+        settingsIcon.setSelected(false);
+        settingsIcon.setOutline(null);
+        settingsIcon.setBorder(new EmptyBorder(5, 5, 5, 5));
+        this.add(settingsIcon);
+
+        setBorder(new FlatMenuBarBorder());
     }
 
     public JMenu fileMenu() {
@@ -29,8 +57,9 @@ public class MenuBar extends JMenuBar {
         final var openProjectItem = new JMenuItem("Open from File", Icons.menuBar(MaterialDesignF.FOLDER_OPEN_OUTLINE));
         fileMenu.add(openProjectItem);
 
-        final var openRecentProject = new JMenuItem("Open Recent");
-        fileMenu.add(openRecentProject);
+        final var openRecentItem = new JMenu("Open Recent");
+        openRecentItem.add(new JMenuItem("testfile 1"));
+        fileMenu.add(openRecentItem);
 
         final var closeProjectItem = new JMenuItem("Close Project");
         fileMenu.add(closeProjectItem);
@@ -85,7 +114,7 @@ public class MenuBar extends JMenuBar {
         final var wikiItem = new JMenuItem("Wiki", Icons.menuBar(MaterialDesignB.BOOK_OPEN_OUTLINE));
         aboutMenu.add(wikiItem);
 
-        final var javaDocItem = new JMenuItem("JavaDoc", Icons.menuBar(MaterialDesignB.BOOKSHELF));
+        final var javaDocItem = new JMenuItem("API Documentation", Icons.menuBar(MaterialDesignB.BOOKSHELF));
         aboutMenu.add(javaDocItem);
 
         aboutMenu.addSeparator();

@@ -13,16 +13,13 @@ import java.awt.*;
 
 public class BlockyEditor {
     public static void init() {
-        FlatDarkLaf.setup();
-//        FlatInspector.install( "ctrl shift alt" );
 
-        JFrame frame = new JFrame();
+        SwingUtilities.invokeLater(() -> {
+            FlatDarkLaf.setup();
+//            FlatInspector.install( "ctrl shift alt" );
 
-        JMenuBar menuBar = new MenuBar();
-        frame.setJMenuBar(menuBar);
+            new MainWindow().setVisible(true);
+        });
 
-        frame.setSize(800,600);
-
-        frame.setVisible(true);
     }
 }
