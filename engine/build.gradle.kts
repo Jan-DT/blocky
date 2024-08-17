@@ -27,6 +27,7 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:1.5.6")
     implementation("org.slf4j:slf4j-api:2.0.16")
     implementation("dev.hollowcube:polar:1.11.1")
+    implementation("org.reflections:reflections:0.10.2")
     api("net.kyori:adventure-text-minimessage:4.17.0")
     api("net.minestom:minestom-snapshots:6c5cd6544e")
     api("dev.hollowcube:polar:1.11.1")

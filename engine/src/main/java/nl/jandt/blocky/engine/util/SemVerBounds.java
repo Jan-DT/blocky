@@ -2,32 +2,86 @@ package nl.jandt.blocky.engine.util;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+/**
+ * Represents version bounds required for a {@link SemVer} version to be compatible.
+ * @param lowerBound The version checked should be greater than or equal to this version.
+ * @param upperBound The version should be less than this version.
+ */
 public record SemVerBounds(SemVer lowerBound, SemVer upperBound) {
-    private static final Logger log = LoggerFactory.getLogger(SemVerBounds.class);
     public static Pattern VALID_PATTERN = Pattern.compile("^(\\^|~|=|)(0|[1-9]\\d*)(?:\\.(0|[1-9]\\d*))?(?:\\.(0|[1-9]\\d*))?$");
 
+    /**
+     * Checks whether the specified {@link SemVer} version is compatible with these bounds.
+     * @param version Version to check for compatibility.
+     */
     public boolean isCompatible(@NotNull SemVer version) {
         return isCompatible(version, lowerBound, upperBound);
     }
 
+    /**
+     * Checks whether the specified {@link SemVer} version is compatible with the specified bounds.
+     * @param check Version to check for compatibility.
+     * @param lowerBound Lower version bound, which the check must be greater than or equal to.
+     * @param upperBound Upper version bound, which the check must be less than.
+     */
     public static boolean isCompatible(@NotNull SemVer check, @NotNull SemVer lowerBound, @NotNull SemVer upperBound) {
         return (check.isGreaterThan(lowerBound) || check.isEqualTo(lowerBound)) && check.isLessThan(upperBound);
     }
 
+    /**
+     * Parses a semantic version bounds string to a SemVerBounds object.
+     * Bounds strings can use the following patterns:
+     * <ul>
+     * <li>EXACT: {@code "=*.*.*"} requires any version matching the bounds exactly, which means:
+     *  <ul>
+     *      <li>{@code "=1"} is {@code "1.0.0" - "1.0.1"}</li>
+     *      <li>{@code "=1.1"} is {@code "1.1.0" - "1.1.1"}</li>
+     *      <li>{@code "=1.1.1"} is {@code "1.1.1" - "1.1.2"}</li>
+     *  </ul>
+     * </li>
+     * <li>MINIMAL: {@code "~*.*.*"} requires any version that guarantees compatibility,
+     * based on the scope used, similar to Cargo's tilde requirements, which means:
+     *  <ul>
+     *      <li>{@code "~1"} is {@code "1.0.0" - "2.0.0"}</li>
+     *      <li>{@code "~1.1"} is {@code "1.1.0" - "1.2.0"}</li>
+     *      <li>{@code "~1.1.1"} is {@code "1.1.1" - "1.2.0"}</li>
+     *  </ul>
+     * </li>
+     * <li>SEMVER: {@code "^1.1.1"} requires anything up to the next major version,
+     * which means:
+     *  <ul>
+     *      <li>{@code "^1"} is {@code "1.0.0" - "2.0.0"}</li>
+     *      <li>{@code "^1.1"} is {@code "1.1.0" - "2.0.0"}</li>
+     *      <li>{@code "^1.1.1"} is {@code "1.1.1" - "2.0.0"}</li>
+     *  </ul>
+     * </li>
+     * <li>When no scope is specified, one will be determined according to the following rules:
+     *  <ul>
+     *      <li>{@code "0.0.1"} will use the same rules as "EXACT", so versions below 0.1 can break at every patch</li>
+     *      <li>{@code "0.1.0"} will use the same rules as "MINIMAL", so versions below 1.0 can break at minor updates</li>
+     *      <li>{@code "1.0.0">} will use the same rules as "SEMVER", so versions above 1.0 can only break at major updates</li>
+     *  </ul>
+     * </li>
+     * </ul>
+     *
+     * @param boundsPattern A bounds pattern, following one of the specified formats.
+     * @throws IllegalArgumentException If the bounds pattern is invalid.
+     */
     @Contract("_ -> new")
     public static @NotNull SemVerBounds from(String boundsPattern) throws IllegalArgumentException {
         final var matcher = VALID_PATTERN.matcher(boundsPattern);
         if (!matcher.matches()) throw new IllegalArgumentException("Invalid compatability string given: " + boundsPattern);
 
-        final var major = Integer.parseInt(matcher.group(2));
-        final var minor = matcher.group(3) != null ? Integer.parseInt(matcher.group(3)) : null;
-        final var patch = matcher.group(4) != null ? Integer.parseInt(matcher.group(4)) : null;
+        final int major = Integer.parseInt(matcher.group(2));
+        final @Nullable Integer minor = matcher.group(3) != null ? Integer.parseInt(matcher.group(3)) : null;
+        final @Nullable Integer patch = matcher.group(4) != null ? Integer.parseInt(matcher.group(4)) : null;
 
         // if no equality operator is specified, just like the Rust versioning system,
         // we choose an equality operator depending on the major or minor version:
@@ -52,6 +106,7 @@ public record SemVerBounds(SemVer lowerBound, SemVer upperBound) {
                 Objects.requireNonNullElse(minor, 0),
                 Objects.requireNonNullElse(patch, 0));
 
+        // just trust the tests on this one...
         return switch (equality) {
             case EXACT -> new SemVerBounds(
                     lowerBound,
@@ -72,6 +127,9 @@ public record SemVerBounds(SemVer lowerBound, SemVer upperBound) {
         };
     }
 
+    /**
+     * Checks whether the specified bounds pattern is syntactically correct.
+     */
     public static boolean isValid(String boundsPattern) {
         return VALID_PATTERN.matcher(boundsPattern).matches();
     }

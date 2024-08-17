@@ -3,6 +3,8 @@ package nl.jandt.blocky.engine.util;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 
 public class Namespace implements Identifier {
     public static final String VALID_PATTERN_STRING = "[0123456789abcdefghijklmnopqrstuvwxyz_-]+";
@@ -30,6 +32,19 @@ public class Namespace implements Identifier {
 
     public String toString() {
         return namespace;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Namespace namespace1 = (Namespace) o;
+        return Objects.equals(namespace, namespace1.namespace);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(namespace);
     }
 
     public static class SerializeString implements Serializer<Namespace, String> {

@@ -17,6 +17,9 @@ import java.util.regex.Pattern;
 public record SemVer(int major, int minor, int patch, @Nullable String prerelease, @Nullable String build)
         implements Comparable<SemVer>, Identifier
 {
+    /**
+     * The Regex pattern representing the official Semantic Version format. Use {@link SemVer#VALID_PATTERN} for a precompiled {@link Pattern}.
+     */
     public static final String VALID_PATTERN_STRING = "(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$";
     public static final Pattern VALID_PATTERN = Pattern.compile(VALID_PATTERN_STRING);
 
@@ -66,6 +69,12 @@ public record SemVer(int major, int minor, int patch, @Nullable String prereleas
         return true;
     }
 
+    /**
+     * Returns the String representation of this version.
+     * Should exactly equal the version passed to {@link SemVer#from(String)}.
+     *
+     * @return The string value of the version.
+     */
     @Contract(pure = true)
     public @NotNull String toString() {
         if (prerelease == null && build == null) return "%s.%s.%s".formatted(major, minor, patch);
@@ -77,7 +86,9 @@ public record SemVer(int major, int minor, int patch, @Nullable String prereleas
     /**
      * Parses a Semantic Version string into a SemVer object.
      *
-     * @param versionString A (valid) version string, like {@code 1.2.3-alpha+some.build.4}
+     * @param versionString A (valid) version string, like {@code 1.2.3-alpha+some.build.4}.
+     *                      Note that this version should not be prefixed by 'v',
+     *                      as that is technically an invalid Semantic Version!
      * @throws IllegalArgumentException If the specified string is not a valid Semantic Version.
      */
     @Contract("_ -> new")

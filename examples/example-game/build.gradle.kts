@@ -3,12 +3,12 @@ plugins {
     id("io.github.goooler.shadow") version "8.1.7"
 }
 
-group = "nl.jandt.blocky.example"
-version = "0.1-INDEV"
+group = project.group
+version = project.version
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(project.property("java_version").toString())
     }
 }
 
@@ -33,7 +33,11 @@ tasks.test {
 }
 
 tasks.withType<Jar> {
+    if (project.hasProperty("base_name")) {
+        archiveBaseName = project.property("base_name").toString()
+    }
+
     manifest {
-        attributes["Main-Class"] = "nl.jandt.blocky.example.Main"
+        attributes["Main-Class"] = "nl.jandt.blocky.engine.BlockyEngine"
     }
 }
