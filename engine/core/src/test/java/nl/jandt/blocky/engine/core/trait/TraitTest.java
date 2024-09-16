@@ -10,16 +10,16 @@ import java.util.Objects;
 import static org.junit.jupiter.api.Assertions.*;
 
 class TraitTest {
-    static class SomeTrait extends Trait {
-        SomeTrait(Container container) {
+    public static class SomeTrait extends Trait {
+        public SomeTrait(Container container) {
             super(container);
         }
     }
 
-    static class SomeBehaviour extends Behaviour {
+    public static class SomeBehaviour extends Behaviour {
         int updates = 0;
 
-        SomeBehaviour(Container object) {
+        public SomeBehaviour(Container object) {
             super(object);
 
             setEnabled(false);
