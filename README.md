@@ -63,6 +63,17 @@ Some features that could possibly, one day, be added:
 
 Please note that these are just some random ideas. Let me know your feedback!
 
+### Project Structure
+
+The project is currently structured as follows:
+
+- [`engine/`](./engine) - contains everything related to the engine itself
+  - [`engine/core`](./engine/core) - contains core interfaces and classes which the engine builds on
+  - [`engine/impl`](./engine/impl) - contains standard implementations on top of the core functionality
+- [`examples/`](./examples) - contains examples showcasing engine functionality, and proving the API
+
+Client functionality is currently only available on the [feat/experimental-client](https://github.com/Jan-DT/blocky/tree/feat/experimental-client) branch.
+
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Contributing
@@ -75,6 +86,11 @@ Big feature changes, additions and ideas should be discussed through an [issue][
 
 Read more about contributing [here](CONTRIBUTE.md).
 
+### Credits
+
+This project would not be possible without:
+- The [Minestom] project, especially its [contributors](https://github.com/Minestom/Minestom/graphs/contributors).
+
 ### License
 
 This project is licensed under EITHER OF
@@ -83,3 +99,5 @@ This project is licensed under EITHER OF
 - MIT license (available at [LICENSE-MIT](./LICENSE-MIT) or https://opensource.org/license/MIT)
 
 at your option.
+
+<p align="right">(<a href="#top">back to top</a>)</p>
