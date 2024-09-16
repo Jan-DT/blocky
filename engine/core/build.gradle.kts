@@ -23,8 +23,6 @@ dependencies {
 
     compileOnly("org.jetbrains:annotations:24.0.0")
 
-    implementation("ch.qos.logback:logback-core:1.5.6")
-    implementation("ch.qos.logback:logback-classic:1.5.6")
     implementation("org.slf4j:slf4j-api:2.0.16")
     implementation("org.reflections:reflections:0.10.2")
 
@@ -32,7 +30,7 @@ dependencies {
     // on the one hand I feel like core should not at all depend on it,
     // but on the other hand I think things like Events should be a core implementation.
     // If anyone has a better idea, let me know! - Jan
-    api("net.minestom:minestom-snapshots:6c5cd6544e")
+    api("net.minestom:minestom-snapshots:4305006e6b")
 }
 
 tasks.test {

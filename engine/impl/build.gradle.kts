@@ -23,15 +23,13 @@ dependencies {
 
     compileOnly("org.jetbrains:annotations:24.0.0")
 
-    implementation("ch.qos.logback:logback-core:1.5.6")
-    implementation("ch.qos.logback:logback-classic:1.5.6")
     implementation("org.slf4j:slf4j-api:2.0.16")
     implementation("org.reflections:reflections:0.10.2")
 
     implementation(project(":engine:core"))
 
+    api("net.minestom:minestom-snapshots:4305006e6b")
     api("net.kyori:adventure-text-minimessage:4.17.0")
-    api("net.minestom:minestom-snapshots:6c5cd6544e")
     api("dev.hollowcube:polar:1.11.1")
 }
 
