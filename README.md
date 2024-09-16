@@ -46,6 +46,7 @@ Some features that could possibly, one day, be added:
 #### Engine
 - [ ] Fully functional object-trait (component) system
 - [ ] Migrate to using just Minestom scratch
+- [ ] Remove all dependencies on Minestom from Core
 - [ ] Serialization system for objects and resources
 - [ ] Animation system
     - Simplified API for particle animations
