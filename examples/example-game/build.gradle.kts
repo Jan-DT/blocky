@@ -3,7 +3,7 @@ plugins {
     id("io.github.goooler.shadow") version "8.1.7"
 }
 
-group = project.group
+group = "nl.jandt.blocky.example"
 version = project.version
 
 java {
@@ -19,7 +19,8 @@ repositories {
 
 
 dependencies {
-    implementation(project(":engine"))
+    implementation(project(":engine:core"))
+    implementation(project(":engine:impl"))
     implementation("ch.qos.logback:logback-core:1.5.6")
     implementation("ch.qos.logback:logback-classic:1.5.6")
     implementation("org.slf4j:slf4j-api:2.0.16")

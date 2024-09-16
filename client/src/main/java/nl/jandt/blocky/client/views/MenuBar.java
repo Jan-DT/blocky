@@ -39,7 +39,7 @@ public class MenuBar extends JMenuBar {
 
         final var settingsIcon = new FlatButton();
         settingsIcon.setButtonType(FlatButton.ButtonType.toolBarButton);
-        settingsIcon.setIcon(Icons.menuBar(MaterialDesignC.COG_OUTLINE));
+        settingsIcon.setIcon(Icons.menuBarIcon(MaterialDesignC.COG_OUTLINE));
         settingsIcon.setSelected(false);
         settingsIcon.setOutline(null);
         settingsIcon.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -51,10 +51,10 @@ public class MenuBar extends JMenuBar {
     public JMenu fileMenu() {
         final var fileMenu = new JMenu("File");
 
-        final var newProjectItem = new JMenuItem("New Project", Icons.menuBar(MaterialDesignF.FOLDER_MULTIPLE_PLUS_OUTLINE));
+        final var newProjectItem = new JMenuItem("New Project", Icons.menuIcon(MaterialDesignF.FOLDER_MULTIPLE_PLUS_OUTLINE));
         fileMenu.add(newProjectItem);
 
-        final var openProjectItem = new JMenuItem("Open from File", Icons.menuBar(MaterialDesignF.FOLDER_OPEN_OUTLINE));
+        final var openProjectItem = new JMenuItem("Open from File", Icons.menuIcon(MaterialDesignF.FOLDER_OPEN_OUTLINE));
         fileMenu.add(openProjectItem);
 
         final var openRecentItem = new JMenu("Open Recent");
@@ -66,21 +66,21 @@ public class MenuBar extends JMenuBar {
 
         fileMenu.addSeparator();
 
-        final var projectSettings = new JMenuItem("Project Settings", Icons.menuBar(MaterialDesignF.FOLDER_COG_OUTLINE));
+        final var projectSettings = new JMenuItem("Project Settings", Icons.menuIcon(MaterialDesignF.FOLDER_COG_OUTLINE));
         fileMenu.add(projectSettings);
 
         fileMenu.addSeparator();
 
-        final var saveItem = new JMenuItem("Save", Icons.menuBar(MaterialDesignC.CONTENT_SAVE_OUTLINE));
+        final var saveItem = new JMenuItem("Save", Icons.menuIcon(MaterialDesignC.CONTENT_SAVE_OUTLINE));
         fileMenu.add(saveItem);
 
-        final var saveAsItem = new JMenuItem("Save As", Icons.menuBar(MaterialDesignC.CONTENT_SAVE_EDIT_OUTLINE));
+        final var saveAsItem = new JMenuItem("Save As", Icons.menuIcon(MaterialDesignC.CONTENT_SAVE_EDIT_OUTLINE));
         fileMenu.add(saveAsItem);
 
-        final var exportItem = new JMenuItem("Export", Icons.menuBar(MaterialDesignE.EXPORT_VARIANT));
+        final var exportItem = new JMenuItem("Export", Icons.menuIcon(MaterialDesignE.EXPORT_VARIANT));
         fileMenu.add(exportItem);
 
-        final var vcsItem = new JMenuItem("Version Control", Icons.menuBar(MaterialDesignS.SOURCE_BRANCH));
+        final var vcsItem = new JMenuItem("Version Control", Icons.menuIcon(MaterialDesignS.SOURCE_BRANCH));
         fileMenu.add(vcsItem);
 
         fileMenu.addSeparator();
@@ -94,11 +94,11 @@ public class MenuBar extends JMenuBar {
     public JMenu editMenu() {
         final var editMenu = new JMenu("Edit");
 
-        final var undoItem = new JMenuItem("Undo", Icons.menuBar(MaterialDesignU.UNDO));
+        final var undoItem = new JMenuItem("Undo", Icons.menuIcon(MaterialDesignU.UNDO));
         undoItem.setAccelerator(KeyStroke.getKeyStroke('Z', InputEvent.CTRL_DOWN_MASK));
         editMenu.add(undoItem);
 
-        final var redoItem = new JMenuItem("Redo", Icons.menuBar(MaterialDesignR.REDO));
+        final var redoItem = new JMenuItem("Redo", Icons.menuIcon(MaterialDesignR.REDO));
         redoItem.setAccelerator(KeyStroke.getKeyStroke('Z', InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK));
         editMenu.add(redoItem);
 
@@ -108,24 +108,24 @@ public class MenuBar extends JMenuBar {
     public JMenu aboutMenu() {
         final var aboutMenu = new JMenu("About");
 
-        final var helpItem = new JMenuItem("Community Support", Icons.menuBar(MaterialDesignH.HELP_CIRCLE_OUTLINE));
+        final var helpItem = new JMenuItem("Community Support", Icons.menuIcon(MaterialDesignH.HELP_CIRCLE_OUTLINE));
         aboutMenu.add(helpItem);
 
-        final var wikiItem = new JMenuItem("Wiki", Icons.menuBar(MaterialDesignB.BOOK_OPEN_OUTLINE));
+        final var wikiItem = new JMenuItem("Wiki", Icons.menuIcon(MaterialDesignB.BOOK_OPEN_OUTLINE));
         aboutMenu.add(wikiItem);
 
-        final var javaDocItem = new JMenuItem("API Documentation", Icons.menuBar(MaterialDesignB.BOOKSHELF));
+        final var javaDocItem = new JMenuItem("API Documentation", Icons.menuIcon(MaterialDesignB.BOOKSHELF));
         aboutMenu.add(javaDocItem);
 
         aboutMenu.addSeparator();
 
-        final var reportIssueItem = new JMenuItem("Report an Issue", Icons.menuBar(MaterialDesignB.BUG_OUTLINE));
+        final var reportIssueItem = new JMenuItem("Report an Issue", Icons.menuIcon(MaterialDesignB.BUG_OUTLINE));
         aboutMenu.add(reportIssueItem);
 
-        final var contributeItem = new JMenuItem("Contribute", Icons.menuBar(MaterialDesignL.LIGHTBULB_OUTLINE));
+        final var contributeItem = new JMenuItem("Contribute", Icons.menuIcon(MaterialDesignL.LIGHTBULB_OUTLINE));
         aboutMenu.add(contributeItem);
 
-        final var licenseItem = new JMenuItem("License", Icons.menuBar(MaterialDesignL.LICENSE));
+        final var licenseItem = new JMenuItem("License", Icons.menuIcon(MaterialDesignL.LICENSE));
         aboutMenu.add(licenseItem);
 
         final var checkUpdateItem = new JMenuItem("Check for Updates");

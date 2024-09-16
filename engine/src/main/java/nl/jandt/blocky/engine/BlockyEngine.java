@@ -3,10 +3,12 @@ package nl.jandt.blocky.engine;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.event.Event;
 import net.minestom.server.event.EventNode;
-import nl.jandt.blocky.engine.command.CommandHandler;
-import nl.jandt.blocky.engine.command.MinestomCommandHandler;
-import nl.jandt.blocky.engine.module.*;
-import nl.jandt.blocky.engine.util.SemVer;
+import nl.jandt.blocky.engine.impl.command.CommandService;
+import nl.jandt.blocky.engine.impl.command.MinestomCommandService;
+import nl.jandt.blocky.engine.impl.module.ModuleHandler;
+import nl.jandt.blocky.engine.impl.module.ModuleHandlerImpl;
+import nl.jandt.blocky.engine.impl.module.ModuleLoaderImpl;
+import nl.jandt.blocky.engine.impl.util.SemVer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,10 +17,10 @@ public class BlockyEngine {
 
     private static final Logger log = LoggerFactory.getLogger(BlockyEngine.class);
 
-    private static MinecraftServer  minecraftServer;
-    private static ModuleHandler    moduleHandler;
+    private static MinecraftServer minecraftServer;
+    private static ModuleHandler moduleHandler;
     private static EventNode<Event> globalEventNode;
-    private static CommandHandler   commandHandler;
+    private static CommandService commandService;
 
     public static void main(String[] args) {
         log.info("---");
@@ -34,14 +36,11 @@ public class BlockyEngine {
         moduleHandler = new ModuleHandlerImpl(new ModuleLoaderImpl());
 
         // initialize modules
-        moduleHandler.initialize();
-
         globalEventNode = MinecraftServer.getGlobalEventHandler();
+        commandService = new MinestomCommandService(MinecraftServer.getCommandManager());
 
-        moduleHandler.registerEvents(globalEventNode);
+        moduleHandler.initialize(globalEventNode, commandService);
 
-        commandHandler = new MinestomCommandHandler(MinecraftServer.getCommandManager());
-
-        moduleHandler.registerCommands(commandHandler);
+        minecraftServer.start("0.0.0.0", 25565);
     }
 }

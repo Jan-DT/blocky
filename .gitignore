@@ -2,6 +2,8 @@
 logs/
 docs/
 
+lib/
+
 ### Gradle ###
 .gradle/
 build/
@@ -47,3 +49,6 @@ bin/
 ### Mac OS ###
 .DS_Store!/
 /docs/
+
+### Fleet ###
+.fleet/
