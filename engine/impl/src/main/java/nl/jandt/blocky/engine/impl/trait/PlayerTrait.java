@@ -5,6 +5,7 @@ import nl.jandt.blocky.engine.impl.PlayerService;
 import nl.jandt.blocky.engine.core.Container;
 import nl.jandt.blocky.engine.core.trait.Behaviour;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class PlayerTrait extends Behaviour {
     private Player player;
@@ -21,7 +22,7 @@ public class PlayerTrait extends Behaviour {
                 .ifPresent(t -> t.setPlayerObject(player, getContainer()));
     }
 
-    public Player getPlayer() {
+    public @Nullable Player getPlayer() {
         return this.player;
     }
 }
