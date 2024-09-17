@@ -19,6 +19,12 @@ public class PlayerAllowFlight extends Behaviour {
     }
 
     @Override
+    protected void onUpdate() {
+//        if (this.player.isFlying())
+//            log.trace("Player is flying!");
+    }
+
+    @Override
     protected void onEnable() {
         this.player.setAllowFlying(true);
         this.player.setFlying(true);
