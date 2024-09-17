@@ -34,7 +34,7 @@ public class ExampleServer extends BasicModule {
 
                     final var world = new World(getServer());
                     final var playerObject = world.createObject();
-                    playerObject.addTrait(PlayerTrait.class).ifPresent(t -> t.initialize(player));
+                    playerObject.addTrait(PlayerTrait.class).ifPresent(t -> t.setPlayer(player));
                     playerObject.addTrait(PlayerAllowFlight.class);
 
                     MinecraftServer.getSchedulerManager().submitTask(() -> {
