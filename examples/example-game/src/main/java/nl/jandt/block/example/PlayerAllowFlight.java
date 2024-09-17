@@ -3,6 +3,7 @@ package nl.jandt.block.example;
 import net.minestom.server.entity.Player;
 import nl.jandt.blocky.engine.core.trait.Behaviour;
 import nl.jandt.blocky.engine.core.Container;
+import nl.jandt.blocky.engine.impl.trait.PlayerTrait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,10 +15,6 @@ public class PlayerAllowFlight extends Behaviour {
         super(container, true);
     }
 
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
-
     @Override
     protected void onUpdate() {
 //        if (this.player.isFlying())
@@ -26,6 +23,11 @@ public class PlayerAllowFlight extends Behaviour {
 
     @Override
     protected void onEnable() {
+        final var playerTrait = tryGetTrait(PlayerTrait.class);
+        playerTrait.ifPresent(trait -> this.player = trait.getPlayer());
+
+        if (this.player == null) return;
+
         this.player.setAllowFlying(true);
         this.player.setFlying(true);
         log.debug("flight enabled for {}", player);
@@ -33,6 +35,8 @@ public class PlayerAllowFlight extends Behaviour {
 
     @Override
     protected void onDisable() {
+        if (this.player == null) return;
+
         this.player.setAllowFlying(false);
         this.player.setFlying(false);
         log.debug("flight disabled for {}", player);
