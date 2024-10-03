@@ -36,10 +36,10 @@ class TraitTest {
         final var container = new Container();
         assertFalse(container.hasTrait(SomeTrait.class));
 
-        container.addTrait(SomeTrait.class);
+        container.tryAddTrait(SomeTrait.class);
         assertNotNull(container.getTrait(SomeTrait.class));
 
-        container.addTrait(SomeTrait.class);
+        container.tryAddTrait(SomeTrait.class);
         assertEquals(2, Objects.requireNonNull(container.getTraits(SomeTrait.class)).size());
     }
 
@@ -49,7 +49,7 @@ class TraitTest {
         final var object = new WorldObject(null);
 
         object._update();
-        object.addTrait(SomeBehaviour.class);
+        object.tryAddTrait(SomeBehaviour.class);
         assertEquals(0, object.getTrait(SomeBehaviour.class).updates);
 
         object._update();
@@ -88,6 +88,6 @@ class TraitTest {
 
         // as currently expected from the API,
         // exceptions should be logged but caught
-        assertDoesNotThrow(() -> container.addTrait(InvalidArgumentBehaviour.class));
+        assertDoesNotThrow(() -> container.tryAddTrait(InvalidArgumentBehaviour.class));
     }
 }

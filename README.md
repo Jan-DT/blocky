@@ -47,6 +47,7 @@ Some features that could possibly, one day, be added:
 - [ ] Fully functional object-trait (component) system
 - [ ] Migrate to using just Minestom scratch
 - [ ] Remove all dependencies on Minestom from Core
+- [ ] Native-like Kotlin support through the Kotlin module
 - [ ] Serialization system for objects and resources
 - [ ] Animation system
     - Simplified API for particle animations
@@ -68,9 +69,10 @@ Please note that these are just some random ideas. Let me know your feedback!
 
 The project is currently structured as follows:
 
-- [`engine/`](./engine) - contains everything related to the engine itself
+- [`engine/`](./engine) - bundles engine logic
   - [`engine/core`](./engine/core) - contains core interfaces and classes which the engine builds on
   - [`engine/impl`](./engine/impl) - contains standard implementations on top of the core functionality
+- [`kotlin/`](./kotlin) - contains Kotlin support functions and DSL stuff
 - [`examples/`](./examples) - contains examples showcasing engine functionality, and proving the API
 
 Client functionality is currently only available on the [feat/experimental-client](https://github.com/Jan-DT/blocky/tree/feat/experimental-client) branch.

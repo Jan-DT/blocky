@@ -33,8 +33,28 @@ public class Container extends Object implements Traitable {
      *
      * @param trait Type of trait to add.
      * @return      The optional trait object, which is {@link Optional#empty()} if the creation failed.
+     * @see Container#addTrait(Class)
      */
-    public final <T extends Trait> Optional<T> addTrait(final @NotNull Class<T> trait) {
+    public final <T extends Trait> Optional<T> tryAddTrait(final @NotNull Class<T> trait) {
+        return Optional.ofNullable(addTrait(trait));
+    }
+
+    /**
+     * Try to add a new trait object of type {@code trait} to this container.
+     * <p>
+     * This will instantiate a new object of the specified type,
+     * thus requiring a constructor in the form:
+     * <pre>
+     *     public SomeComponent(Container container) {
+     *         super(container);
+     *     }
+     * </pre>
+     *
+     * @param trait Type of trait to add.
+     * @return      The trait object, which might be null if the creation failed.
+     * @see Container#tryAddTrait(Class)
+     */
+    public final <T extends Trait> @Nullable T addTrait(final @NotNull Class<T> trait) {
         try {
             final var object = _initializeTrait(trait);
 
@@ -45,9 +65,10 @@ public class Container extends Object implements Traitable {
             // also add it to a set for bulk updating
             traitSet.add(object);
 
+            // calls the setupTrait method for any subclasses of Container
             setupTrait(object);
 
-            return Optional.of(object);
+            return object;
         } catch (NoSuchMethodException e) {
             log.error("Invalid constructor for trait '{}'. Trait must have a constructor in the form this(Container).", trait, e);
         } catch (InvocationTargetException e) {
@@ -56,7 +77,7 @@ public class Container extends Object implements Traitable {
             log.error("Failed to add trait '{}' to container '{}'", trait, this, e);
         }
 
-        return Optional.empty();
+        return null;
     }
 
     /**

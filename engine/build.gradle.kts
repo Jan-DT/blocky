@@ -1,7 +1,8 @@
+// The :engine module just serves to bundle :engine:core and :engine:impl so it can be imported as one
+
 plugins {
     id("java")
     id("java-library")
-    id("io.github.goooler.shadow") version "8.1.7"
 }
 
 group = "nl.jandt.blocky.engine"
@@ -15,29 +16,9 @@ java {
 
 repositories {
     mavenCentral()
-    maven(url = "https://jitpack.io")
 }
 
 dependencies {
-    compileOnly("org.jetbrains:annotations:24.0.0")
-
-    implementation("org.slf4j:slf4j-api:2.0.16")
-    implementation("ch.qos.logback:logback-core:1.5.6")
-    implementation("ch.qos.logback:logback-classic:1.5.6")
-
     api(project(":engine:core"))
     api(project(":engine:impl"))
-}
-
-tasks.test {
-    useJUnitPlatform()
-    testLogging {
-        events("passed", "skipped", "failed")
-    }
-}
-
-tasks.withType<Jar> {
-    manifest {
-        attributes["Main-Class"] = "nl.jandt.blocky.engine.BlockyEngine"
-    }
 }

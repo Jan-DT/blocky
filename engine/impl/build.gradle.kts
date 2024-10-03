@@ -21,16 +21,14 @@ dependencies {
     testImplementation(platform("org.junit:junit-bom:5.11.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 
-    compileOnly("org.jetbrains:annotations:24.0.0")
-
-    implementation("org.slf4j:slf4j-api:2.0.16")
-    implementation("org.reflections:reflections:0.10.2")
+    compileOnly(deps.annotations)
+    implementation(deps.slf4j)
+    implementation(deps.reflections)
 
     implementation(project(":engine:core"))
-
-    api("net.minestom:minestom-snapshots:4305006e6b")
-    api("net.kyori:adventure-text-minimessage:4.17.0")
-    api("dev.hollowcube:polar:1.11.1")
+    implementation(deps.minestom)
+    implementation(deps.minimessage)
+    implementation(deps.polar)
 }
 
 tasks.test {
