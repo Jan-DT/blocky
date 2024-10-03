@@ -21,18 +21,15 @@ dependencies {
     testImplementation(platform("org.junit:junit-bom:5.11.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 
-    compileOnly("org.jetbrains:annotations:24.0.0")
+    compileOnly(deps.annotations)
+    implementation(deps.slf4j)
 
-    implementation("ch.qos.logback:logback-core:1.5.6")
-    implementation("ch.qos.logback:logback-classic:1.5.6")
-    implementation("org.slf4j:slf4j-api:2.0.16")
-    implementation("org.reflections:reflections:0.10.2")
-
-    // I am still unsure how to treat Minestom as a dependency
-    // on the one hand I feel like core should not at all depend on it,
-    // but on the other hand I think things like Events should be a core implementation.
-    // If anyone has a better idea, let me know! - Jan
-    api("net.minestom:minestom-snapshots:6c5cd6544e")
+    // I am still unsure how to treat Minestom as a dependency.
+    // I feel like engine.core should not depend on Minestom,
+    // but for now we rely on Minestom Events and Scheduling.
+    // Maybe someday we can implement this ourselves?
+    // If anyone has any thoughts on this, let me know! - Jan
+    implementation(deps.minestom)
 }
 
 tasks.test {

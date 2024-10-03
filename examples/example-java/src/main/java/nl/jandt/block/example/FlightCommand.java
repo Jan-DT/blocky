@@ -14,11 +14,12 @@ public class FlightCommand extends BlockyCommand {
                 assert playerObject != null;
 
                 final var flightTrait = playerObject.tryGetTrait(PlayerAllowFlight.class);
+
                 if (flightTrait.isPresent()) {
                     playerObject.removeTrait(flightTrait.get());
                     sender.sendMessage("You can no longer fly!");
                 } else {
-                    playerObject.addTrait(PlayerAllowFlight.class).ifPresent(t -> t.setPlayer(player));
+                    playerObject.tryAddTrait(PlayerAllowFlight.class);
                     sender.sendMessage("You can now fly!");
                 }
             }
