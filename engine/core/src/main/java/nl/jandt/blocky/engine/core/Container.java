@@ -1,6 +1,5 @@
 package nl.jandt.blocky.engine.core;
 
-import nl.jandt.blocky.engine.core.trait.Behaviour;
 import nl.jandt.blocky.engine.core.trait.Trait;
 import nl.jandt.blocky.engine.core.trait.Accessor;
 import nl.jandt.blocky.engine.core.trait.Traitlike;
@@ -13,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 
@@ -61,6 +59,7 @@ public class Container extends Object implements Accessor {
         try {
             final var object = _initializeTrait(trait);
 
+
             // we use size 1, as there is usually only one instance of a trait on an object,
             // though multiple are possible (at the cost of a capacity increase)
             traitMap.computeIfAbsent(trait, k -> new ArrayList<>(1))
@@ -96,7 +95,7 @@ public class Container extends Object implements Accessor {
         destroyTrait(trait);
 
         // iterate over map values and remove any that match the specified trait
-        // is there a way to do this more efficiently?
+        // more efficient way to do this probably exists
         traitMap.values().forEach(s -> s.remove(trait));
         // remove empty keys
         traitMap.entrySet().removeIf(e -> e.getValue().isEmpty());
@@ -105,14 +104,12 @@ public class Container extends Object implements Accessor {
         return true;
     }
 
-    @ApiStatus.OverrideOnly
-    protected void setupTrait(Trait trait) {
-        // nothing
+    protected void setupTrait(@NotNull Trait trait) {
+        trait._setup(this);
     }
 
-    @ApiStatus.OverrideOnly
-    protected void destroyTrait(Trait trait) {
-        // nothing
+    protected void destroyTrait(@NotNull Trait trait) {
+        trait._destroy();
     }
 
     /** @hidden */

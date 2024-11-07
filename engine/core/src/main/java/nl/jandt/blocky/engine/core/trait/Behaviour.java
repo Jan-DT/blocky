@@ -14,13 +14,19 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public abstract class Behaviour extends Trait implements Updatable {
     private final AtomicBoolean enabled;
+    private final boolean disableOnDestroy;
 
     public Behaviour() {
-        this(true);
+        this(true, true);
     }
 
     public Behaviour(boolean enabled) {
+        this(enabled, true);
+    }
+
+    public Behaviour(boolean enabled, boolean disableOnDestroy) {
         this.enabled = new AtomicBoolean(enabled);
+        this.disableOnDestroy = disableOnDestroy;
     }
 
     /** @hidden */
@@ -32,6 +38,15 @@ public abstract class Behaviour extends Trait implements Updatable {
         }
 
         super._setup(container);
+    }
+
+    /** @hidden */
+    @Override
+    @ApiStatus.Internal
+    public void _destroy() {
+        if (disableOnDestroy) this._disable();
+
+        super._destroy();
     }
 
     @Override

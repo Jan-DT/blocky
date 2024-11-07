@@ -34,7 +34,7 @@ public class WorldObject extends Container implements Updatable {
     }
 
     @Override
-    protected void setupTrait(Trait trait) {
+    protected void setupTrait(@NotNull Trait trait) {
         super.setupTrait(trait);
 
         // TODO: some other way of scheduling (own scheduler, also for ticks?)
@@ -51,10 +51,8 @@ public class WorldObject extends Container implements Updatable {
     }
 
     @Override
-    protected void destroyTrait(Trait trait) {
+    protected void destroyTrait(@NotNull Trait trait) {
         super.destroyTrait(trait);
-
-        this._disable();
     }
 
     @Override

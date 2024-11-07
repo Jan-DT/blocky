@@ -18,7 +18,7 @@ fun main() {
 }
 
 class KotlinServer : BasicModule() {
-    override fun getServer(): MinestomServer = super.getServer() as MinestomServer
+    override fun getServer(): MinestomServer = super.server as MinestomServer
 
     override fun setup() {
         registerModule(MinestomModule())
