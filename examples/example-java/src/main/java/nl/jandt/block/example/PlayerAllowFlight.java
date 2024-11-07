@@ -2,8 +2,6 @@ package nl.jandt.block.example;
 
 import net.minestom.server.entity.Player;
 import nl.jandt.blocky.engine.core.trait.Behaviour;
-import nl.jandt.blocky.engine.core.Container;
-import nl.jandt.blocky.engine.impl.event.EventService;
 import nl.jandt.blocky.engine.impl.trait.PlayerTrait;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -13,10 +11,11 @@ public class PlayerAllowFlight extends Behaviour {
     private static final Logger log = LoggerFactory.getLogger(PlayerAllowFlight.class);
     private Player player;
 
-    public PlayerAllowFlight(Container container) {
-        super(container, true);
+    protected void onSetup() {
+        this.setEnabled(false);
 
         parentEventNode().addListener(PlayerTrait.PlayerChangeEvent.class, this::onPlayerChange);
+
         tryGetTrait(PlayerTrait.class).ifPresent(t -> this.player = t.getPlayer());
     }
 
