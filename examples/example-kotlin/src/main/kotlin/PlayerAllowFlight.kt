@@ -8,7 +8,7 @@ import nl.jandt.blocky.extensions.parentEventNode
 
 private val log = KotlinLogging.logger {}
 
-class PlayerAllowFlight : Behaviour(false) {
+class PlayerAllowFlight : Behaviour(true) {
     private var player: Player? = null
 
     override fun onSetup() {
