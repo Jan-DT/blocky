@@ -4,25 +4,18 @@ import nl.jandt.blocky.engine.core.Container;
 import nl.jandt.blocky.engine.core.WorldObject;
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class TraitTest {
-    public static class SomeTrait extends Trait {
-        public SomeTrait(Container container) {
-            super(container);
-        }
-    }
+    public static class SomeTrait extends Trait {}
 
     public static class SomeBehaviour extends Behaviour {
         int updates = 0;
 
-        public SomeBehaviour(Container object) {
-            super(object);
-
-            setEnabled(false);
+        public SomeBehaviour() {
+            super(false);
         }
 
         @Override
@@ -67,18 +60,12 @@ class TraitTest {
         final var worldObject = new WorldObject(null);
 
         // a Behaviour should only accept WorldObjects
-        assertThrows(IllegalArgumentException.class, () -> {
-            new SomeBehaviour(container);
-        });
-
-        // thus attempting to add a Behaviour to a regular Container should throw
-        assertThrows(InvocationTargetException.class, () -> {
-            container._initializeTrait(SomeBehaviour.class);
-        });
+        assertThrows(IllegalArgumentException.class, () -> new SomeBehaviour()._setup(container));
 
         class InvalidArgumentBehaviour extends Behaviour {
-            public InvalidArgumentBehaviour(Container container, int someNumber) {
-                super(container);
+            @SuppressWarnings("unused")
+            public InvalidArgumentBehaviour(int someNumber) {
+                super();
             }
         }
 
