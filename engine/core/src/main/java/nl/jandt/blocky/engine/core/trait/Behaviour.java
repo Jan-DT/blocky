@@ -9,14 +9,19 @@ import nl.jandt.blocky.engine.core.server.Server;
 import nl.jandt.blocky.engine.core.world.World;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public abstract class Behaviour extends Trait implements Updatable {
-    private final AtomicBoolean enabled = new AtomicBoolean(true);
+    private final AtomicBoolean enabled;
 
-    public Behaviour() {}
+    public Behaviour() {
+        this(true);
+    }
+
+    public Behaviour(boolean enabled) {
+        this.enabled = new AtomicBoolean(enabled);
+    }
 
     /** @hidden */
     @Override

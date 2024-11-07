@@ -11,9 +11,11 @@ public class PlayerAllowFlight extends Behaviour {
     private static final Logger log = LoggerFactory.getLogger(PlayerAllowFlight.class);
     private Player player;
 
-    protected void onSetup() {
-        this.setEnabled(false);
+    public PlayerAllowFlight() {
+        super(false);
+    }
 
+    protected void onSetup() {
         parentEventNode().addListener(PlayerTrait.PlayerChangeEvent.class, this::onPlayerChange);
 
         tryGetTrait(PlayerTrait.class).ifPresent(t -> this.player = t.getPlayer());

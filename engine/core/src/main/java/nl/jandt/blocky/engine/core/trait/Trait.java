@@ -22,7 +22,7 @@ public abstract class Trait extends Object implements Traitlike<Container> {
     }
 
     @ApiStatus.OverrideOnly
-    protected abstract void onSetup();
+    protected void onSetup() {}
 
     @Override
     public @NotNull Container getContainer() {
