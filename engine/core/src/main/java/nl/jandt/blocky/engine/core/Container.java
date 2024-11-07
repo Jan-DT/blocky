@@ -2,7 +2,8 @@ package nl.jandt.blocky.engine.core;
 
 import nl.jandt.blocky.engine.core.trait.Behaviour;
 import nl.jandt.blocky.engine.core.trait.Trait;
-import nl.jandt.blocky.engine.core.trait.Traitable;
+import nl.jandt.blocky.engine.core.trait.Accessor;
+import nl.jandt.blocky.engine.core.trait.Traitlike;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -13,15 +14,17 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.CopyOnWriteArraySet;
 
-public class Container extends Object implements Traitable {
+
+public class Container extends Object implements Accessor {
     private static final Logger log = LoggerFactory.getLogger(Container.class);
 
     protected final Map<Class<? extends Trait>, List<Trait>> traitMap = new ConcurrentHashMap<>();
-    protected final Collection<Trait> traitSet = new CopyOnWriteArrayList<>();
+    protected final Collection<Trait> traitSet = new CopyOnWriteArraySet<>();
 
     /**
-     * Try to add a new trait object of type {@code trait} to this container.
+     * Add a new trait object of type {@code trait} to this container.
      * <p>
      * This will instantiate a new object of the specified type,
      * thus requiring a constructor in the form:
@@ -40,7 +43,7 @@ public class Container extends Object implements Traitable {
     }
 
     /**
-     * Try to add a new trait object of type {@code trait} to this container.
+     * Add a new trait object of type {@code trait} to this container.
      * <p>
      * This will instantiate a new object of the specified type,
      * thus requiring a constructor in the form:
@@ -69,6 +72,7 @@ public class Container extends Object implements Traitable {
             setupTrait(object);
 
             return object;
+
         } catch (NoSuchMethodException e) {
             log.error("Invalid constructor for trait '{}'. Trait must have a constructor in the form this(Container).", trait, e);
         } catch (InvocationTargetException e) {
@@ -89,8 +93,7 @@ public class Container extends Object implements Traitable {
     public final <T extends Trait> boolean removeTrait(final @NotNull T trait) {
         if (!traitSet.contains(trait)) return false;
 
-        if (trait instanceof Behaviour behaviour)
-            behaviour._disable();
+        destroyTrait(trait);
 
         // iterate over map values and remove any that match the specified trait
         // is there a way to do this more efficiently?
@@ -107,12 +110,17 @@ public class Container extends Object implements Traitable {
         // nothing
     }
 
+    @ApiStatus.OverrideOnly
+    protected void destroyTrait(Trait trait) {
+        // nothing
+    }
+
     /** @hidden */
     @ApiStatus.Internal
-    public final <T extends Trait> @NotNull T _initializeTrait(@NotNull Class<T> trait) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    public final <T extends Traitlike<?>> @NotNull T _initializeTrait(@NotNull Class<T> trait) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         // gets a constructor in shape Behaviour(Container)
         // in the future, dependency injection might be handled through this method
-        return trait.getDeclaredConstructor(Container.class).newInstance(this);
+        return trait.getDeclaredConstructor().newInstance();
     }
 
     /**
@@ -131,7 +139,7 @@ public class Container extends Object implements Traitable {
         return traitSet;
     }
 
-    //#region Traitable Implementations
+    //#region Accessor Implementations
     @SuppressWarnings("unchecked")
     @Override
     public final <T extends Trait> @Nullable T getTrait(Class<T> trait) {

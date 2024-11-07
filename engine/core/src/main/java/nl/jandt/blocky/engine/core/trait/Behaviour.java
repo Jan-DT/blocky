@@ -8,23 +8,35 @@ import nl.jandt.blocky.engine.core.WorldObject;
 import nl.jandt.blocky.engine.core.server.Server;
 import nl.jandt.blocky.engine.core.world.World;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public abstract class Behaviour extends Trait implements Updatable {
-    private final AtomicBoolean enabled = new AtomicBoolean(true);
+    private final AtomicBoolean enabled;
 
-    public Behaviour(Container container) {
-        super(container);
-
-        if (!(container instanceof WorldObject))
-            throw new IllegalArgumentException("Behaviour traits can only be added to WorldObjects");
+    public Behaviour() {
+        this(true);
     }
 
-    public Behaviour(Container container, boolean enabled) {
-        this(container);
+    public Behaviour(boolean enabled) {
+        this.enabled = new AtomicBoolean(enabled);
+    }
 
-        this.enabled.set(enabled);
+    /** @hidden */
+    @Override
+    @ApiStatus.Internal
+    public void _setup(Container container) {
+        if (!(container instanceof WorldObject)) {
+            throw new IllegalArgumentException("Container for Behaviour must be a WorldObject");
+        }
+
+        super._setup(container);
+    }
+
+    @Override
+    public @NotNull WorldObject getContainer() {
+        return (WorldObject) super.getContainer();
     }
 
     /**
@@ -96,20 +108,15 @@ public abstract class Behaviour extends Trait implements Updatable {
         return this.enabled.get();
     }
 
-    @Override
-    public WorldObject getContainer() {
-        return (WorldObject) container;
-    }
-
-    public World getWorld() {
+    public @NotNull World getWorld() {
         return getContainer().getWorld();
     }
 
-    public Server getServer() {
+    public @NotNull Server getServer() {
         return getWorld().getServer();
     }
 
-    public EventNode<Event> parentEventNode() {
+    public @NotNull EventNode<Event> parentEventNode() {
         return getContainer().eventNode();
     }
 }

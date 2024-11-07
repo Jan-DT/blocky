@@ -2,17 +2,18 @@ package nl.jandt.blocky
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import net.minestom.server.entity.Player
-import nl.jandt.blocky.engine.core.Container
 import nl.jandt.blocky.engine.core.trait.Behaviour
 import nl.jandt.blocky.engine.impl.trait.PlayerTrait
+import nl.jandt.blocky.extensions.parentEventNode
 
 private val log = KotlinLogging.logger {}
 
-class PlayerAllowFlight(container: Container) : Behaviour(container) {
+class PlayerAllowFlight : Behaviour(false) {
     private var player: Player? = null
 
-    init {
-        parentEventNode().addListener(PlayerTrait.PlayerChangeEvent::class.java, ::onPlayerChange)
+    override fun onSetup() {
+        parentEventNode.addListener(PlayerTrait.PlayerChangeEvent::class.java, ::onPlayerChange)
+
         player = getTrait(PlayerTrait::class.java)?.player
     }
 

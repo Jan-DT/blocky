@@ -3,7 +3,6 @@ package nl.jandt.blocky.engine.impl.trait;
 import net.minestom.server.entity.Player;
 import net.minestom.server.event.trait.PlayerEvent;
 import nl.jandt.blocky.engine.impl.PlayerService;
-import nl.jandt.blocky.engine.core.Container;
 import nl.jandt.blocky.engine.core.trait.Behaviour;
 import nl.jandt.blocky.engine.impl.event.EventService;
 import org.jetbrains.annotations.NotNull;
@@ -11,10 +10,6 @@ import org.jetbrains.annotations.Nullable;
 
 public class PlayerTrait extends Behaviour {
     private @Nullable Player player;
-
-    public PlayerTrait(Container container) {
-        super(container);
-    }
 
     public void setPlayer(@NotNull Player player) {
         final var oldPlayer = this.player;

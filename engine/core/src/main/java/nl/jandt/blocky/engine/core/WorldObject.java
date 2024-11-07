@@ -38,11 +38,23 @@ public class WorldObject extends Container implements Updatable {
         super.setupTrait(trait);
 
         // TODO: some other way of scheduling (own scheduler, also for ticks?)
+        // Generally need to look more into order of operations
         MinecraftServer.getSchedulerManager()
                 .scheduleEndOfTick(() -> {
-                    if (trait instanceof Toggleable toggled && toggled.isEnabled())
-                        toggled._enable();
+                    if (trait instanceof Behaviour behaviour) {
+                        if (behaviour.isEnabled())
+                            behaviour._enable();
+                        else
+                            behaviour._disable();
+                    }
                 });
+    }
+
+    @Override
+    protected void destroyTrait(Trait trait) {
+        super.destroyTrait(trait);
+
+        this._disable();
     }
 
     @Override

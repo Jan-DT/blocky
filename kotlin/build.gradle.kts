@@ -13,6 +13,9 @@ dependencies {
     testImplementation(kotlin("test"))
 
     implementation(project(":engine"))
+    implementation(deps.minestom)
+    implementation(deps.minimessage)
+    implementation(deps.polar)
 }
 
 tasks.test {

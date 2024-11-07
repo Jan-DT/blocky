@@ -9,16 +9,18 @@ import java.util.Collection;
 import java.util.Optional;
 
 @ApiStatus.Internal
-public interface Traitable {
+public interface Accessor {
+    // probably have to make up a better name for this
+
     /**
      * Get a reference to the first trait object connected to the {@link Container}, which has the specified type.
      * <p>
      * This should primarily be used when you are sure a trait exists on a {@link Container}.
-     * If you are not sure, it is recommended to use {@link Traitable#tryGetTrait} over this method.
+     * If you are not sure, it is recommended to use {@link Accessor#tryGetTrait} over this method.
      *
      * @param trait Type of trait to return.
      * @return      The first trait of specified type found in the container, or {@code null} if none.
-     * @see Traitable#tryGetTrait(Class)
+     * @see Accessor#tryGetTrait(Class)
      */
     <T extends Trait> @Nullable T getTrait(Class<T> trait);
 
@@ -26,11 +28,11 @@ public interface Traitable {
      * Get a reference to the first trait object connected to the {@link Container}, which has the specified type.
      * <p>
      * Use this whenever you are not sure if a Trait is connected to this container,
-     * and you want to explicitly check this. If you are sure the required trait is connected, you can use {@link Traitable#getTrait}.
+     * and you want to explicitly check this. If you are sure the required trait is connected, you can use {@link Accessor#getTrait}.
      *
      * @param trait Type of trait to return.
      * @return      The first trait of specified type found in the container, as Optional value.
-     * @see Traitable#getTrait(Class)
+     * @see Accessor#getTrait(Class)
      */
     <T extends Trait> @NotNull Optional<T> tryGetTrait(Class<T> trait);
 
@@ -38,11 +40,11 @@ public interface Traitable {
      * Get an array of trait objects connected to the {@link Container}, which have the specified type.
      * <p>
      * This should primarily be used when you are sure a trait exists on a {@link Container}.
-     * If you are not sure, it is recommended to use {@link Traitable#tryGetTraits} over this method.
+     * If you are not sure, it is recommended to use {@link Accessor#tryGetTraits} over this method.
      *
      * @param trait Type of trait to return.
      * @return      A collection of trait objects of specified type found in the container, or {@code null} if none.
-     * @see Traitable#tryGetTraits(Class)
+     * @see Accessor#tryGetTraits(Class)
      */
     <T extends Trait> @Nullable Collection<T> getTraits(Class<T> trait);
 
@@ -50,11 +52,11 @@ public interface Traitable {
      * Get an array of trait objects connected to the {@link Container}, which have the specified type.
      * <p>
      * Use this whenever you are not sure if a Trait is connected to this container,
-     * and you want to explicitly check this. If you are sure the required trait is connected, you can use {@link Traitable#getTrait}.
+     * and you want to explicitly check this. If you are sure the required trait is connected, you can use {@link Accessor#getTrait}.
      *
      * @param trait Type of trait to return.
      * @return      A collection of trait objects of specified type found in the container, as Optional value.
-     * @see Traitable#getTrait(Class)
+     * @see Accessor#getTrait(Class)
      */
     <T extends Trait> @NotNull Optional<Collection<T>> tryGetTraits(Class<T> trait);
 

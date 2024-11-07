@@ -2,50 +2,61 @@ package nl.jandt.blocky.engine.core.trait;
 
 import nl.jandt.blocky.engine.core.Container;
 import nl.jandt.blocky.engine.core.Object;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.Optional;
 
-public abstract class Trait extends Object implements Traitable {
-    public static final Class<Container> CONTAINER_TYPE = Container.class;
+public abstract class Trait extends Object implements Traitlike<Container> {
+    protected @Nullable Container container;
 
-    protected final Container container;
+    public Trait() {}
 
-    public Trait(Container container) {
+    @Override
+    public void _setup(Container container) {
         this.container = container;
+
+        onSetup();
     }
 
-    @SuppressWarnings("unused")
-    public Container getContainer() {
-        return container;
+    @ApiStatus.OverrideOnly
+    protected void onSetup() {}
+
+    @Override
+    public @NotNull Container getContainer() {
+        if (this.container == null) {
+            throw new IllegalStateException("Use of container before setup");
+        }
+
+        return this.container;
     }
 
     //region Traitable Implementations
     @Override
-    public <T extends Trait> @Nullable T getTrait(Class<T> trait) {
-        return container.getTrait(trait);
+    public final <T extends Trait> @Nullable T getTrait(Class<T> trait) {
+        return container != null ? container.getTrait(trait) : null;
     }
 
     @Override
-    public @NotNull <T extends Trait> Optional<T> tryGetTrait(Class<T> trait) {
-        return container.tryGetTrait(trait);
+    public final @NotNull <T extends Trait> Optional<T> tryGetTrait(Class<T> trait) {
+        return container != null ? container.tryGetTrait(trait) : Optional.empty();
     }
 
     @Override
-    public <T extends Trait> @Nullable Collection<T> getTraits(Class<T> trait) {
-        return container.getTraits(trait);
+    public final <T extends Trait> @Nullable Collection<T> getTraits(Class<T> trait) {
+        return container != null ? container.getTraits(trait) : null;
     }
 
     @Override
-    public @NotNull <T extends Trait> Optional<Collection<T>> tryGetTraits(Class<T> trait) {
-        return container.tryGetTraits(trait);
+    public final @NotNull <T extends Trait> Optional<Collection<T>> tryGetTraits(Class<T> trait) {
+        return container != null ? container.tryGetTraits(trait) : Optional.empty();
     }
 
     @Override
-    public <T extends Trait> boolean hasTrait(Class<T> trait) {
-        return container.hasTrait(trait);
+    public final <T extends Trait> boolean hasTrait(Class<T> trait) {
+        return container != null && container.hasTrait(trait);
     }
     //endregion
 }
